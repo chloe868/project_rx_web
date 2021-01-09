@@ -1,5 +1,4 @@
 <template>
-
   <div class="locations">
     <div class="header row justify-content-between align-items-center">
       <span class="ml-2 title">Locations</span>
@@ -58,7 +57,7 @@
                   @onFinish="getLocation($event)"
                 >
                 </google-autocomplete-location>
-              </div>
+              </div>  
             </div>
             <div v-if="customLocation === true">
               <div class="row mb-3 justify-content-end mx-0">

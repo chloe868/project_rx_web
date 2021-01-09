@@ -246,6 +246,13 @@ export default{
     meta: {
       tokenRequired: true
     }
+  }, {
+    path: '*',
+    name: 'withdrawalHistory',
+    component: resolve => require(['src/components/404.vue'], resolve),
+    meta: {
+      tokenRequired: true
+    }
   }
   ]
 }

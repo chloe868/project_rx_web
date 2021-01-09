@@ -372,6 +372,7 @@ export default{
       }
       // $('#loading').css({display: 'block'})
       this.APIRequest('locations/retrieve', parameter).then(response => {
+        console.log('location', response.data)
         if(response.data.length > 0){
           this.selectedLocation = response.data[0]
           this.scopeLocation = response.data[0].code
@@ -437,6 +438,7 @@ export default{
         offset: (this.activePage > 0) ? ((this.activePage - 1) * this.limit) : this.activePage
       }
       this.APIRequest('accounts/retrieve_accounts', parameter).then(response => {
+        console.log('accounts', response.data)
         $('#loading').css({display: 'none'})
         if(response.data.length > 0){
           this.data = response.data

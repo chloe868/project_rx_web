@@ -29,10 +29,17 @@
             <div class="bg-primary text-center" style="text-transform: capitalize">
             <p class="text-white">{{data.name}} <br> {{data.email}}
             </p>
-            <p class="text-white"><i class="far fa-check-circle" color="primary"></i><i> {{data.account ? data.account.status : data.status === data.account ? 'VERIFIED' : 'verified' ? 'Verified' : 'Not Verified'}}</i></p><br>
+            <p class="text-white"><i class="far fa-check-circle" color="primary"></i><i> {{data.status === 'verified' ? 'Verified' : 'Not Verified'}}</i></p>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" :value="data.account ? data.account.code : data.code" id="myInput">
+              <div class="input-group-append">
+                <button class="btn btn-default copy" type="button" @click="copy()"><i class="fas fa-copy"></i> Copy</button>
+              </div>
+            </div>
+            <br>
             </div>
         </div>
-        <br>
+        <br>  
         <center>
           <div style="margin-right: 15%; margin-left: 15%;">
               <button type="button" class="btn btn-primary" @click="scopeLocation(storeItem)"><i class="fa fa-map-marker-alt"></i> Scope Location</button>
@@ -123,6 +130,14 @@
 img {
   border-radius: 50%;
 }
+.input-group {
+  margin-left: 55px;
+  width: 650px;
+}
+.copy{
+  color: $primary !important;
+  cursor: pointer;
+}
 </style>
 <script>
 import ROUTER from 'src/router'
@@ -205,7 +220,6 @@ export default {
           }
           this.APIRequest('billing_informations/retrieve', parameter).then(response => {
             $('#loading').css({display: 'none'})
-            this.$parent.retrieve({created_at: 'desc'}, {column: 'created_at', value: ''})
             if(response.data.length > 0){
               this.bill = response.data[0]
               this.showModal()
@@ -261,6 +275,12 @@ export default {
           }
         })
       }
+    },
+    copy(){
+      var copyText = document.getElementById('myInput')
+      copyText.select()
+      copyText.setSelectionRange(0, 99999)
+      document.execCommand('copy')
     }
   }
 }

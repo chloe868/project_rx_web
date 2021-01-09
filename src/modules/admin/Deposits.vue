@@ -36,6 +36,8 @@
                 <a class="dropdown-item" @click="change(item, 'PROCESSING')"><i class="fas fa-hand-holding-usd"></i>Processing</a>
                 <a class="dropdown-item" @click="changeStatus(item, 'DECLINE')"><i class="fa fa-times"></i>  &nbsp;&nbsp;&nbsp;Decline</a>
                 <a class="dropdown-item" @click="changeStatuss(item, 'COMPLETE')"><i class="fa fa-check"></i> &nbsp;&nbsp;Complete</a>
+                <a class="dropdown-item" @click="viewReciepts(item, 'RECEIPTS')"><i class="fa fa-eye"></i> &nbsp;&nbsp;View Receipts</a>
+                <a class="dropdown-item" @click="viewOrders(item, 'ORDERS')"><i class="fa fa-eye"></i> &nbsp;&nbsp;View Orders</a>
               </div>
             </div>
           </td>
@@ -57,6 +59,14 @@
     @onConfirm="confirm($event)"
     />
 
+    <Receipt
+    ref="receipt"
+    >
+    </Receipt>
+    <Order
+    ref="order"
+    >
+    </Order>
     <empty v-if="data === null" :title="'No deposits available!'" :action="'Waiting for request.'"></empty>
   </div>
 </template>
@@ -78,6 +88,8 @@ import CURRENCY from 'src/services/currency.js'
 import COMMON from 'src/common.js'
 import Pager from 'src/components/increment/generic/pager/Pager.vue'
 import Confirmations from 'src/components/increment/generic/modal/Confirmation.vue'
+import Receipt from 'src/modules/admin/Receipts.vue'
+import Order from 'src/modules/admin/Orders.vue'
 import propertyModal from './DeliveryFeeModal.js'
 export default{
   mounted(){
@@ -104,7 +116,9 @@ export default{
     'management-options': require('modules/admin/Menu.vue'),
     'increment-modal': require('components/increment/generic/modal/Modal.vue'),
     Pager,
-    Confirmations
+    Confirmations,
+    Receipt,
+    Order
   },
   methods: {
     retrieve(){
@@ -116,6 +130,7 @@ export default{
         offset: (this.activePage > 0) ? ((this.activePage - 1) * this.limit) : this.activePage
       }
       this.APIRequest('deposits/retrieve_requests', parameter).then(response => {
+        console.log('deposits', response.data)
         $('#loading').css({display: 'none'})
         if(response.data.length > 0){
           this.data = response.data
@@ -191,6 +206,13 @@ export default{
           response.data = null
         }
       })
+    },
+    viewReciepts(item){
+      this.$refs.receipt.showModal(item)
+    },
+    viewOrders(item){
+      this.$refs.order.showModal(item)
+      console.log('asdf', this.$refs.order)
     }
   }
 }
